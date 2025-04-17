@@ -6,6 +6,7 @@ import type {
   Coordinates,
 } from "./types";
 
+// api calling without axios to learn
 class WeatherAPI{
   private createUrl(endpoint:string,params: Record<string, string | number>){
     const searchParams = new URLSearchParams({

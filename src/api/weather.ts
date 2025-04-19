@@ -53,7 +53,7 @@ class WeatherAPI {
   async searchLocations(query: string): Promise<GeocodingResponse[]> {
     const url = this.createUrl(`${API_CONFIG.GEO}/direct`, {
       q: query,
-      limit: 1,
+      limit: '5',
     });
     return this.fetchData<GeocodingResponse[]>(url);
   }

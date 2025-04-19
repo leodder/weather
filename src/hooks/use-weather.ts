@@ -9,6 +9,7 @@ export const WEATHER_KEYS = {
   weather: (coords: Coordinates) => ["weather", coords] as const,
   forecast: (coords: Coordinates) => ["forecast", coords] as const,
   location: (coords: Coordinates) => ["location", coords] as const,
+  search: (query: string) => ["location-search", query] as const,
 } as const;
 
 export function useWeatherQuery(coordinates: Coordinates | null) {
@@ -20,18 +21,17 @@ export function useWeatherQuery(coordinates: Coordinates | null) {
       coordinates ? weatherAPI.getCurrentWeather(coordinates) : null,
     enabled: !!coordinates,
   });
-};
+}
 
 export function useForecastQuery(coordinates: Coordinates | null) {
   return useQuery({
     // coordinates 是 null 時會用 { lat: 0, lon: 0 } 當 key（避免 undefined 出錯）
     queryKey: WEATHER_KEYS.forecast(coordinates ?? { lat: 0, lon: 0 }),
     // 如果 coordinates 是 null，就不送請求
-    queryFn: () =>
-      coordinates ? weatherAPI.getForecast(coordinates) : null,
+    queryFn: () => (coordinates ? weatherAPI.getForecast(coordinates) : null),
     enabled: !!coordinates,
   });
-};
+}
 
 export function useReverseGeocodeQuery(coordinates: Coordinates | null) {
   return useQuery({
@@ -42,4 +42,12 @@ export function useReverseGeocodeQuery(coordinates: Coordinates | null) {
       coordinates ? weatherAPI.reverseGeocode(coordinates) : null,
     enabled: !!coordinates,
   });
-};
+}
+
+export function useLocationSearch(query: string) {
+  return useQuery({
+    queryKey: WEATHER_KEYS.search(query),
+    queryFn: () => weatherAPI.searchLocations(query),
+    enabled: query.length >= 3,
+  });
+}

@@ -14,10 +14,12 @@ import { format } from "date-fns";
 interface HourlyTempratureProps {
   data: ForecastData;
 }
-// to learn bg-background text-muted-foreground shadow-sm grid grid-cols-2 Recharts 
+// to learn bg-background text-muted-foreground shadow-sm grid grid-cols-2 flex-1 Recharts 
 const HourlyTemprature = ({ data }: HourlyTempratureProps) => {
   const chartData = data.list.slice(0, 8).map((item) => ({
+    // to learn: 為何需要用new這個語法？
     time: format(new Date(item.dt * 1000), "ha"),
+    // Math.round?
     temp: Math.round(item.main.temp),
     feels_like: Math.round(item.main.feels_like),
   }));

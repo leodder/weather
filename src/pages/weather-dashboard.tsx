@@ -12,6 +12,8 @@ import {
 } from "../hooks/use-weather";
 import CurrentWeather from "../components/current-weather";
 import HourlyTemprature from "../components/hourly-temprature";
+import WeatherDetails from "../components/weather-details";
+import WeatherForecast from "../components/weather-forecast";
 
 const WeatherDashboard = () => {
   const {
@@ -113,13 +115,13 @@ const WeatherDashboard = () => {
       <div className="grid gap-6">
         <div className="flex flex-col lg:flex-row gap-4">
           <CurrentWeather data={weatherQuery.data} locationName={locationName} />
-          {/* current weather */}
+
           <HourlyTemprature data={forecastQuery.data} />
-          {/* hourly temrature */}
+
         </div>
-        <div>
-          {/* detail */}
-          {/* forecast */}
+        <div className="grid gap-6 md:grid-cols-2 items-start">
+          <WeatherDetails data={weatherQuery.data} />
+          <WeatherForecast data={forecastQuery.data} />
         </div>
       </div>
     </div>

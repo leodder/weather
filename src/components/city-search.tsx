@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useSearchHistory } from "../hooks/use-search-history";
 import { format } from "date-fns";
-// to learn split, onClick={}大括號裡面什麼時候要用()=>{}的寫法
+// to learn split
 const CitySearch = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -50,6 +50,11 @@ const CitySearch = () => {
         variant="outline"
         className="relative justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64"
         onClick={() => setOpen(!open)}
+        // ⚠️ onClick 裡為什麼要用 () => {...}？
+        // JSX 的 onClick 需要傳入「一個函式」，不能直接呼叫函式（例如 onClick={handleClick()} ❌）
+        // 如果寫 onClick={setOpen(!open)}，會在 render 時就執行 setOpen，造成錯誤
+        // 因此要用箭頭函式包起來：onClick={() => setOpen(!open)} ✅
+        // 這樣點擊時才會執行 setOpen
       >
         <Search className="mr-2 h-4 w-4" />
         Search cities...
@@ -73,34 +78,39 @@ const CitySearch = () => {
               <CommandSeparator />
               <CommandGroup>
                 <div className="flex items-center justify-between px-2 my-2">
-                  <p className="text-xs text-muted-foreground">Recent Searches</p>
-                  <Button variant='ghost' size='sm' onClick={()=> clearHistory.mutate()}>
+                  <p className="text-xs text-muted-foreground">
+                    Recent Searches
+                  </p>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => clearHistory.mutate()}
+                  >
                     <XCircle className="h-4 w-4" />
                     Clear
                   </Button>
                 </div>
-                {history.map((location)=> (
+                {history.map((location) => (
                   <CommandItem
-                  key={`${location.lat}-${location.lon}`}
-                  value={`${location.lat} | ${location.lon} | ${location.name} | ${location.country}`}
-                  onSelect={handleSelect}
-                >
-                  <Clock className="mr-2 h-4 w-4 text-muted-foreground" />
-                  <span>{location.name}</span>
-                  {location.state && (
+                    key={`${location.lat}-${location.lon}`}
+                    value={`${location.lat} | ${location.lon} | ${location.name} | ${location.country}`}
+                    onSelect={handleSelect}
+                  >
+                    <Clock className="mr-2 h-4 w-4 text-muted-foreground" />
+                    <span>{location.name}</span>
+                    {location.state && (
+                      <span className="text-sm text-muted-foreground">
+                        , {location.state}
+                      </span>
+                    )}
                     <span className="text-sm text-muted-foreground">
-                      , {location.state}
+                      , {location.country}
                     </span>
-                  )}
-                  <span className="text-sm text-muted-foreground">
-                    , {location.country}
-                  </span>
-                  <span className="ml-auto text-xs text-muted-foreground">
-                    {format(location.searchedAt,'MMM d, h:mm a')}
-                  </span>
-                </CommandItem>
+                    <span className="ml-auto text-xs text-muted-foreground">
+                      {format(location.searchedAt, "MMM d, h:mm a")}
+                    </span>
+                  </CommandItem>
                 ))}
-                
               </CommandGroup>
             </>
           )}

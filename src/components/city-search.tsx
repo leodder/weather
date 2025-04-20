@@ -93,7 +93,9 @@ const CitySearch = () => {
                 {history.map((location) => (
                   <CommandItem
                     key={`${location.lat}-${location.lon}`}
-                    value={`${location.lat} | ${location.lon} | ${location.name} | ${location.country}`}
+                    // 以下是錯誤寫法， | ，多了空白鍵，導致navigate error
+                    // value={`${location.lat} | ${location.lon} | ${location.name} | ${location.country}`}
+                    value={`${location.lat}|${location.lon}|${location.name}|${location.country}`}
                     onSelect={handleSelect}
                   >
                     <Clock className="mr-2 h-4 w-4 text-muted-foreground" />
@@ -125,7 +127,7 @@ const CitySearch = () => {
               {locations?.map((location) => (
                 <CommandItem
                   key={`${location.lat}-${location.lon}`}
-                  value={`${location.lat} | ${location.lon} | ${location.name} | ${location.country}`}
+                  value={`${location.lat}|${location.lon}|${location.name}|${location.country}`}
                   onSelect={handleSelect}
                 >
                   <Search className="mr-2 h-4 w-4" />

@@ -1,5 +1,5 @@
 import { useLocationSearch } from "../hooks/use-weather";
-import { Clock, Loader2, Search, XCircle } from "lucide-react";
+import { Clock, Loader2, Search, Star, XCircle } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import {
@@ -14,6 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useSearchHistory } from "../hooks/use-search-history";
 import { format } from "date-fns";
+import { useFavorite } from "../hooks/use-favorite";
 // to learn split
 const CitySearch = () => {
   const [open, setOpen] = useState(false);
@@ -43,6 +44,7 @@ const CitySearch = () => {
     // ✅ 正確格式應該是 `${lat} | ${lon} | ${name} | ${country}`
     navigate(`/city/${name}?lat=${lat}&lon=${lon}`);
   };
+  const { favorites } = useFavorite();
 
   return (
     <>
@@ -69,9 +71,29 @@ const CitySearch = () => {
           {query.length > 2 && !isLoading && (
             <CommandEmpty>No Cities found.</CommandEmpty>
           )}
-          {/* <CommandGroup heading="Favorites">
-            <CommandItem>Calendar</CommandItem>
-          </CommandGroup> */}
+          {/* Favorites Section */}
+          {favorites.length > 0 && (
+            <CommandGroup heading="Favorites">
+              {favorites.map((city) => (
+                <CommandItem
+                  key={city.id}
+                  value={`${city.lat}|${city.lon}|${city.name}|${city.country}`}
+                  onSelect={handleSelect}
+                >
+                  <Star className="mr-2 h-4 w-4 text-yellow-500" />
+                  <span>{city.name}</span>
+                  {city.state && (
+                    <span className="text-sm text-muted-foreground">
+                      , {city.state}
+                    </span>
+                  )}
+                  <span className="text-sm text-muted-foreground">
+                    , {city.country}
+                  </span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
 
           {history.length > 0 && (
             <>

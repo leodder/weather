@@ -9,12 +9,13 @@ import CurrentWeather from "../components/current-weather";
 import HourlyTemprature from "../components/hourly-temprature";
 import WeatherDetails from "../components/weather-details";
 import WeatherForecast from "../components/weather-forecast";
+import FavoriteButton from "../components/favorite-button";
 
 const CityPage = () => {
   const [searchParams] = useSearchParams();
   const params = useParams();
   // console.log(params);
-  
+
   const lat = parseFloat(searchParams.get("lat") || "0");
   const lon = parseFloat(searchParams.get("lon") || "0");
   const coordinates = { lat, lon };
@@ -34,8 +35,7 @@ const CityPage = () => {
   }
   // console.log(weatherQuery.data);
   // console.log(forecastQuery.data);
-  
-  
+
   if (!weatherQuery.data || !forecastQuery.data || !params.cityName) {
     return <WeatherSkeleton />;
   }
@@ -45,8 +45,14 @@ const CityPage = () => {
       <div className="space-y-4">
         {/* Favorite Cities */}
         <div className="flex items center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">{params.cityName}, {weatherQuery.data.sys.country}</h1>
-          
+          <h1 className="text-3xl font-bold tracking-tight">
+            {params.cityName}, {weatherQuery.data.sys.country}
+          </h1>
+          <div>
+            <FavoriteButton
+              data={{ ...weatherQuery.data, name: params.cityName }}
+            />
+          </div>
         </div>
         <div className="grid gap-6">
           <div className="flex flex-col lg:flex-row gap-4">

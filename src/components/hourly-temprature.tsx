@@ -17,12 +17,14 @@ interface HourlyTempratureProps {
 // to learn bg-background text-muted-foreground shadow-sm grid grid-cols-2 flex-1 Recharts 
 const HourlyTemprature = ({ data }: HourlyTempratureProps) => {
   const chartData = data.list.slice(0, 8).map((item) => ({
-    // to learn: 為何需要用new這個語法？
+    // to learn: 為何需要用new這個語法？ slice
     time: format(new Date(item.dt * 1000), "ha"),
     // Math.round?
     temp: Math.round(item.main.temp),
     feels_like: Math.round(item.main.feels_like),
   }));
+  // console.log(data.list.slice(0, 8));
+  // console.log(chartData);
 
   return (
     <Card className="flex-1">
@@ -32,6 +34,7 @@ const HourlyTemprature = ({ data }: HourlyTempratureProps) => {
       <CardContent>
         <div className="h-[200px] w-full">
           <ResponsiveContainer width={"100%"} height={"100%"}>
+            {/* https://recharts.org/en-US/guide/getting-started */}
             <LineChart data={chartData}>
               {/* XAsis & YAxis are a liitl weird */}
               <XAxis
@@ -49,8 +52,11 @@ const HourlyTemprature = ({ data }: HourlyTempratureProps) => {
                 tickFormatter={(value) => `${value}°`}
               />
               {/* tooltip */}
+              {/* https://recharts.org/en-US/api/Tooltip */}
               <Tooltip
                 content={({ active, payload }) => {
+                  // console.log(active);
+                  // console.log(payload);
                   if (active && payload && payload.length) {
                     return (
                       <div className="rounded-lg border bg-background p-2 shadow-sm">

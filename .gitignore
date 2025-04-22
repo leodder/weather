@@ -23,3 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.firebase/
+# # Firebase CLI cache
+*.cache
+# Vite cache
+.vite/

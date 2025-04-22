@@ -3,10 +3,6 @@ import { ArrowDown, ArrowUp, Droplets, Wind } from "lucide-react";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
 } from "./ui/card";
 
 interface CurrentWeatherProps {

@@ -20,4 +20,4 @@ Install packages: npm i
 
 Start the app: npm run dev
 
-Delpoy on: Firebase Hosting
+Deploy on: Firebase Hosting

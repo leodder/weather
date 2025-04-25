@@ -1,4 +1,4 @@
-// according the api data, declare the type to learn
+// according the api data, declare the type ✅ to learn
 // api's res example data's web: https://openweathermap.org/current
 export interface Coordinates {
   lat: number;

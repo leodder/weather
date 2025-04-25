@@ -66,6 +66,7 @@ function FavoriteCityTablet({
         onClick={(e) => {
           e.stopPropagation();
           onRemove(id);
+          // ✅ to learn toast
           toast.error(`Remove ${name} from Favorites`);
         }}
       >

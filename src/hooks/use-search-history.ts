@@ -26,6 +26,7 @@ export function useSearchHistory() {
     initialData: history,
   });
   const addToHistory = useMutation({
+    // optimistic
     mutationFn: async (
       search: Omit<SearchHistoryItem, "id" | "searchedAt">
     ) => {

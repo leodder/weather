@@ -9,7 +9,7 @@ import { toast } from "sonner";
 interface FavoriteButtonProps {
   data: WeatherData;
 }
-// to learn sonner's toast
+// ✅ to learn sonner's toast
 const FavoriteButton = ({ data }: FavoriteButtonProps) => {
   const { addToFavorite, isFavorite, removeFavorite } = useFavorite();
   const isCurrentlyFavorite = isFavorite(data.coord.lat, data.coord.lon);

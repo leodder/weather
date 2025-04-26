@@ -95,6 +95,11 @@ export function useGeolocation() {
     getLocation();
   }, []);
   return {
+    // 因為 ...locationData 是把 coordinates, error, isLoading 直接'展開'在回傳的 object 上，
+    // 因此在調用此hook時，可以直接寫const { coordinates, error, isLoading, getLocation } = useGeolocation();
+    // 如果 return locationData,則在調用此hook時，
+    // 就要寫成const { coordinates, error, isLoading } = useGeolocation().locationData跟
+    // const { getLocation } = useGeolocation();分兩次寫
     ...locationData,
     getLocation,
   };
